@@ -76,4 +76,3 @@ score <- function (symbols) {
 }
 symbols
 score(symbols)
-
