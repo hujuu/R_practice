@@ -43,9 +43,26 @@ library(ggplot2)
 channel.tab <- table(ws.customer$Channel)
 channel.tab
 barplot(channel.tab, ylim = c(0,300), ylab = "度数")
+ws.customer$Channel <- factor(ws.customer$Channel,
+                              labels = c("Horeca","Retail"))
+qplot(Channel, data = ws.customer, fill=I("grey"), ylab="度数")
+
+ws.customer$Region <- factor(ws.customer$Region,
+                              labels = c("Lisbon","Oporto",
+                                         "Other Region"))
+#積み上げ縦棒グラフ
+qplot(Channel, data = ws.customer, fill = Region, ylab="度数")
+#帯グラフ
+qplot(Channel, data = ws.customer, fill = Region, 
+      ylab="比率",position = "fill")
 
 ###plotで文字化け防止#####
 #初期設定では文字化け
 ?par
-par(family = "")
 par(family = "HiraKakuProN-W3")
+
+hist(ws.customer$Milk, breaks=20, xlim = c(0,80000), ylim = c(0,300),
+     xlab = "Milk", ylab = "度数", main = "")
+qplot(Milk, data = ws.customer, fill = I("grey"), color=I("black"),
+      binwidth=4000)
+boxplot(Milk~Channel, data = ws.customer, ylim=c(0,80000))
