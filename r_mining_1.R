@@ -23,7 +23,6 @@ dim(x) <- c(3,3)
 #3次元配列
 x <- 1:27
 dim(x) <- c(3,3,3)
-x
 
 matrix(1:15, ncol = 5, byrow = TRUE)
 cbind(1:2,4:5,7:8)
@@ -66,3 +65,11 @@ hist(ws.customer$Milk, breaks=20, xlim = c(0,80000), ylim = c(0,300),
 qplot(Milk, data = ws.customer, fill = I("grey"), color=I("black"),
       binwidth=4000)
 boxplot(Milk~Channel, data = ws.customer, ylim=c(0,80000))
+qplot(Channel, Milk, data = ws.customer, geom = "boxplot")
+plot(ws.customer$Grocery, ws.customer$Detergents_Paper,
+     xlab = "Grocery", ylab = "Detergents_Paper")
+qplot(Grocery, Detergents_Paper, data = ws.customer)
+qplot(Grocery, Detergents_Paper, color = Channel, size = Fresh,
+      data = ws.customer)
+qplot(Grocery, Detergents_Paper, color = Channel, size = Fresh,
+      data = ws.customer, facets = ~Channel)
