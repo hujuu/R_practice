@@ -1,0 +1,2 @@
+data(Titanic)
+str(Titanic)

@@ -1,8 +1,11 @@
 #データの読み込み
-spambase <- read.csv("../../spambase/spambase.data", header = F)
+#spambase <- read.csv("../../spambase/spambase.data", header = F)
+spambase <- read.csv("spambase/spambase.data", header = F)
 
 #変数名の追加
-colnames(spambase) <- read.table("../../spambase/spambase.names",
+#colnames(spambase) <- read.table("../../spambase/spambase.names",
+#                                 skip = 33, sep = ":", comment.char = "")[,1]
+colnames(spambase) <- read.table("spambase/spambase.names",
                                  skip = 33, sep = ":", comment.char = "")[,1]
 colnames(spambase)[ncol(spambase)] <- "spam"
 
@@ -35,3 +38,19 @@ lst.fun <- function(x){
 qplot(word_freq_your, spam,
       data = spambase, alpha=I(0.03), xlim = c(-5,15)) + 
   stat_function(fun = lst.fun, geom = "line")
+
+spam.your.pred <- predict(spam.your.lst, type = "resp")
+(tb <- table(spam = spambase$spam, pred = round(spam.your.pred)))
+1-sum(diag(tb))/sum(tb)
+
+spam.glm <- glm(spam~., data = spambase, family = "binomial")
+summary(spam.glm)
+
+#変数選択をおこなって、予測に最適なモデルを求めます
+library(MASS)
+(spam.glm.best <- stepAIC(spam.glm))
+summary(spam.glm.best)
+
+spam.best.pred <- predict(spam.glm.best, type = "resp")
+(tb.best <- table(spam = spambase$spam, pred = round(spam.best.pred)))
+1-sum(diag(tb.best))/sum(tb.best)
