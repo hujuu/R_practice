@@ -10,5 +10,6 @@ tapply(sleep1$time, sleep1$club, sd)
 
 aov(sleep1$time~sleep1$club)
 
+#多重比較
 summary(aov(sleep1$time~sleep1$club))
 TukeyHSD(aov(sleep1$time~sleep1$club))
