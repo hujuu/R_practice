@@ -1,6 +1,7 @@
 install.packages("reshape")
 library(reshape)
 
+#データの読み込み
 task2 <- read.csv("R_practice/anova2b.csv")
 
 task2$number2 <- factor(task2$number)
