@@ -15,3 +15,10 @@ beer1$number2 <- factor(beer1$number)
 class(beer1$number)
 
 class(beer1$number2)
+
+summary(aov(beer1$taste
+            ~beer1$drink*beer1$place
+            +Error(beer1$number2
+                   +beer1$number2:beer1$drink
+                   +beer1$number2:beer1$place
+                   +beer1$number2:beer1$drink:beer1$place)))
