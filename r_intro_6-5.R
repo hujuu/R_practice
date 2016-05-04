@@ -19,4 +19,9 @@ summary(aov(sleep2$time~sleep2$club,subset=(sleep2$sex=='f')))
 
 summary(aov(sleep2$time~sleep2$club,subset=(sleep2$sex=="m")))
 
+#テューキーのHSD法による多重比較
 TukeyHSD(aov(sleep2$time~sleep2$club,subset=(sleep2$sex=="m")))
+
+summary(aov(sleep2$time~sleep2$sex, subset=(sleep2$club=="baseball")))
+summary(aov(sleep2$time~sleep2$sex, subset=(sleep2$club=="soccer")))
+summary(aov(sleep2$time~sleep2$sex, subset=(sleep2$club=="tennis")))
