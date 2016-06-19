@@ -1,6 +1,6 @@
-library(reshape)
+library(reshape) #ライブラリーの読み込み
 
-beer2 <- read.csv("R_practice/anova4b.csv")
+beer2 <- read.csv("R_practice/anova4b.csv") #データの読み込み
 beer2$number2 <- factor(beer2$number)
 beer2$number2
 beer3 <- beer2[,c("number2","beerAin", "beerAout",

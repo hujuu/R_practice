@@ -1,4 +1,4 @@
-install.packages("reshape")
+# install.packages("reshape")
 library(reshape)
 
 #データの読み込み

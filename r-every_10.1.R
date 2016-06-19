@@ -27,3 +27,17 @@ while(x <= 5){
   print(x)
   x <- x + 1
 }
+
+for(i in 1:10){
+  if(i == 3){
+    next
+  }
+  print(i)
+}
+
+for(i in 1:10){
+  if(i == 4){
+    break
+  }
+  print(i)
+}
