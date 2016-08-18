@@ -102,3 +102,38 @@ class(theDT$B)
 
 diamondsDT <- data.table(diamonds)
 diamondsDT
+
+theDT[1:2, ]
+theDT[theDT$A >= 7, ]
+theDT[ , list(A, C)]
+#1列のみを表示
+theDT[, B]
+# data.tableのデータ構造を保ちつつ、1列選択
+theDT[, list(B)]
+theDT[, "B", with = FALSE]
+theDT[, c("A", "C"), with = FALSE]
+# テーブルを表示する
+tables()
+# キーを設定する
+setkey(theDT, D)
+# data.tableを再度表示する
+theDT
+key(theDT)
+tables()
+theDT["one", ]
+theDT[c("one", "two"), ]
+
+# キー設定をする
+setkey(diamondsDT, cut, color)
+# J関数を用いて、複数の列をキーにいくつかの行を選択する
+diamondsDT[J("Ideal", "E"), ]
+diamondsDT[J("Ideal", c("E", "D")), ]
+
+aggregate(price ~ cut, diamonds, mean)
+diamondsDT[, mean(price), by = cut]
+diamondsDT[, list(price = mean(price)), by = cut]
+diamondsDT[, mean(price), by = list(cut, color)]
+diamondsDT[, list(price = mean(price), carat = mean(carat)), by = cut]
+diamondsDT[, list(price = mean(price), carat = mean(carat)
+                  ,caratSum = sum(carat)), by = cut]
+diamondsDT[, list(price = mean(price), carat = mean(carat)), by = list(cut, color)]
