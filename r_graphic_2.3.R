@@ -27,3 +27,4 @@ ggplot(BOD, aes(x = Time, y = demand)) + geom_bar(stat = "identity")
 # 個数を示す棒グラフ
 qplot(factor(cyl), data = mtcars)
 ggplot(mtcars, aes(x = factor(cyl))) + geom_bar()
+
