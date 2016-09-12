@@ -7,7 +7,7 @@ barplot(c)
 
 library(ggplot2)
 # 以下は本の通りだが古い記述なのでエラーになる
-qplot(BOD$Time, BOD$demand, geom = "bar", stat = "identity")
+## qplot(BOD$Time, BOD$demand, geom = "bar", stat = "identity")
 
 ggplot(BOD, aes(x = Time, y = demand)) + geom_bar(width = 0.9,stat = "identity")
 
@@ -26,5 +26,10 @@ ggplot(BOD, aes(x = Time, y = demand)) + geom_bar(stat = "identity")
 
 # 個数を示す棒グラフ
 qplot(factor(cyl), data = mtcars)
-ggplot(mtcars, aes(x = factor(cyl))) + geom_bar()
-
+g <- ggplot(mtcars, aes(x = factor(cyl))) + geom_bar()
+install.packages("ggthemes")
+require(ggthemes)
+g
+g + theme_wsj()
+g + theme_tufte()
+g + theme_economist()
