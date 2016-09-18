@@ -1,4 +1,3 @@
-install.packages("gcookbook")
 library(gcookbook)
 library(ggplot2)
 
