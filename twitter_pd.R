@@ -13,13 +13,12 @@ accessSecret <- "CjMLAd9M2wuhBQGchLvxQDMM84FqCPoj4LXFMnv6cDFty"
 
 setup_twitter_oauth(APIkey, APISecret, accessToken, accessSecret)
 
-searchword <- "ガラケー　スマホ"
+searchword <- "パズドラ"
 searchquery <- paste0(searchword, " AND -filter:links AND -RT")
 tw.df <- twListToDF(searchTwitter(searchquery,
                                   since = as.character(Sys.Date()-8),
                                   until = as.character(Sys.Date()),
-                                  n = 10000))
-
+                                  n = 5000))
 names(tw.df)
 
 tw.daily <- tw.df %>%
