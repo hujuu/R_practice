@@ -84,3 +84,28 @@ for (i in 1:5) {
 # データフレームのリストを縦につなげて1つのデータフレームに
 dat <- dplyr::bind_rows(kabukas) 
 
+scores_messy <- data.frame(名前 = c("生徒A", "生徒B"),
+                             算数 = c(   100,    100),
+                             国語 = c( 80, 100),
+                             理科 = c( 60, 100),
+                             社会 = c( 40, 20),
+                             stringsAsFactors = FALSE   # 文字列が因子型に変換されないようにする 
+                            )
+
+scores_tidy <- gather(scores_messy,key = "教科", value = "点数",
+                      # 新しくできる列の名前を指定 
+                      算数, 国語, 理科, 社会)   # 変形する対象の列を指定 
+
+# spread()で横長に戻す
+spread(scores_tidy, key = 教科, value = 点数)
+
+mpg %>%  
+  # 列の絞り込み
+  select(model, displ, year, cyl)
+
+mpg %>%  # 列の絞り込み  
+  select(manufacturer, model, displ, year, cyl) %>%  # 行の絞り込み  
+  filter(manufacturer == "audi") %>%  # 新しい列を作成  
+  mutate(century = ceiling(year / 100))
+  
+mpg %>%  arrange(cty) 
