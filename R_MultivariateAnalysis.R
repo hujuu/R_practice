@@ -109,3 +109,23 @@ mpg %>%  # 列の絞り込み
   mutate(century = ceiling(year / 100))
   
 mpg %>%  arrange(cty) 
+
+mpg %>%  arrange(cty, hwy) 
+mpg %>%  arrange(desc(cty), desc(hwy))
+mpg %>%  arrange(desc(cty, desc))
+mpg %>%  rename(MODEL = model, TRANS = trans) 
+mpg %>%  select(starts_with("c"))
+mpg %>%  # cylそれぞれの値が6以上なら"6以上"、それ以外なら"6未満"、という列cty_6を追加  
+  mutate(cty_6 = if_else(cyl >= 6, "6以上", "6未満")) 
+mpg %>%  mutate(cty = if_else(cyl >= 6, "6以上", "6未満"))
+mpg %>%  transmute(cty_6 = if_else(cyl >= 6, "6以上", "6未満"), year)
+mpg %>%  mutate(century = ceiling(year/100),    # ceiling()は値を切り上げる関数 
+                century_int = as.integer(century)   # ceiling()はの結果は数値型なので、整数型に変換  
+                )
+mpg %>%  summarise(displ_max = max(displ))
+
+mpg_grouped <- mpg %>%  group_by(manufacturer, year)
+
+mpg_grouped %>%  transmute(displ_rank = rank(displ, ties.method = "max")) 
+mpg_grouped %>%  filter(n() >= 20) 
+mpg_grouped %>%  summarise(displ_max = max(displ)) 
