@@ -129,3 +129,19 @@ mpg_grouped <- mpg %>%  group_by(manufacturer, year)
 mpg_grouped %>%  transmute(displ_rank = rank(displ, ties.method = "max")) 
 mpg_grouped %>%  filter(n() >= 20) 
 mpg_grouped %>%  summarise(displ_max = max(displ)) 
+
+## runif()の結果を再現性あるものにするため、乱数のシードを固定 
+set.seed(1) 
+## runif()で0～100の範囲の乱数を10個ずつ生成 
+d <- tibble(  id   = 1:10,  test1 = runif(10, max = 100),  test2 = runif(10, max = 100),  test3 = runif(10, max = 100),  test4 = runif(10, max = 100) ) 
+
+d_tidy <- d %>%  # gather()でもselectのセマンティクス（コラム参照）が使える  
+  gather(key = "test", value = "value", test1:test4)  
+d_tidy 
+
+d_tidy %>%  mutate(value = round(value))
+d_tidy %>%  group_by(test) %>%  summarise(value_avg = mean(value))
+d_tidy %>%  mutate(value = round(value)) %>%  spread(key = test, value = value) 
+
+d %>%  mutate_all(round) 
+mpg %>%  mutate_if(is.numeric, round)
