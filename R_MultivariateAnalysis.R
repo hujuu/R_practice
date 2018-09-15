@@ -145,3 +145,43 @@ d_tidy %>%  mutate(value = round(value)) %>%  spread(key = test, value = value)
 
 d %>%  mutate_all(round) 
 mpg %>%  mutate_if(is.numeric, round)
+d %>%  mutate_at(vars(-id), round)
+
+# tibble()はtibbleを作成するための関数、data.frame()と違ってstringsAsFactors = FALSEは必要ない 
+uriage <- tibble(day   = c(   1,   1,   2,   2,   3,   3,   4,   4),  # 日付  
+                 store = c( "a", "b", "a", "b", "a", "b", "a", "b"),  # 店舗ID
+                 sales = c( 100, 500, 200, 500, 400, 500, 800, 500)   # 売上額 
+                 ) 
+uriage
+tenko <- tibble(day    = c(     1,     2,    3,     4),  
+                rained = c( FALSE, FALSE, TRUE, FALSE) ) 
+tenko
+uriage %>%  inner_join(tenko, by = "day")
+tenko2 <- tibble(DAY    = c(     1,     2,    3,     4),  
+                 rained = c( FALSE, FALSE, TRUE, FALSE) ) 
+uriage %>%  inner_join(tenko2, by = c("day" = "DAY"))
+tenko3 <- tibble(DAY    = c(     1,     1,    2,    2,     3),
+                 store  = c(    "a",  "b",  "a",  "b",   "b"),
+                 rained = c( FALSE, FALSE, TRUE, FALSE, TRUE) ) 
+uriage %>%  inner_join(tenko3, by = c("day" = "DAY", "store"))
+uriage %>%  left_join(tenko3, by = c("day" = "DAY", "store"))
+
+res <- uriage %>%  left_join(tenko3, by = c("day" = "DAY", "store")) # ベクトルなら、第2引数にはNAの代わりに入れる値を直接指定する 
+res %>%  mutate(rained = replace_na(rained, FALSE)) 
+# データフレームなら、第2引数には「列名 = NAの代わりの値」という形式のリストを指定する 
+res %>%  replace_na(list(rained = FALSE)) 
+res %>%  group_by(store) %>%  arrange(day) %>%  fill(rained) %>%  ungroup()
+res %>%  group_by(store) %>%  arrange(day) %>%  fill(rained)
+tenko4 <- tibble(day    = c(    2,    3,    3), 
+                 store  = c(  "a",  "a",  "b"),  
+                 rained = c( TRUE, TRUE, TRUE) ) 
+
+combinations <- tenko4 %>%  # 絞り込みに使う列のみを選択
+  select(day, store) %>%  # 各行を1つのリストに変換 
+  transpose() 
+uriage %>%  # 各行を1つのリストに変換  
+  mutate(x = map2(day, store, ~ list(day = .x, store = .y))) %>%  # 一致する組み合わせがあるもののみに絞り込み 
+  filter(x %in% !! combinations)
+
+uriage %>%  semi_join(tenko4, by = c("day", "store"))
+uriage %>%  inner_join(tenko4, by = c("day", "store"))
