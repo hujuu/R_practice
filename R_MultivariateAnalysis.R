@@ -185,3 +185,15 @@ uriage %>%  # 各行を1つのリストに変換
 
 uriage %>%  semi_join(tenko4, by = c("day", "store"))
 uriage %>%  inner_join(tenko4, by = c("day", "store"))
+
+# インストールされていない場合
+library(RColorBrewer) 
+display.brewer.all()
+
+# 左図 
+ggplot(data = mpg, mapping = aes(x = drv, y = cty, fill = drv)) + geom_boxplot() +  scale_fill_brewer(palette = "Greys") 
+# 右図 
+ggplot(data = mpg, mapping = aes(x = drv, y = cty, fill = drv)) + geom_boxplot() +  scale_fill_brewer(palette = "Paired")
+library(ggthemes) 
+ggthemes_data$colorblind 
+ggplot(data = mpg, mapping = aes(x = class, y = cty, fill = class)) +  geom_boxplot(show.legend = FALSE) +  scale_fill_colorblind()
