@@ -4,11 +4,11 @@ library(rvest)
 
 jhk <- read_csv("Personnel_evaluation_result.csv", locale = locale(encoding = "CP932"))
 head(jhk)
+jhk <- read.csv("Personnel_evaluation_result.csv", encoding = "CP932")
+head(jhk)
 
 histogram(~ストレス, data = jhk, breaks = 20, type = "count")
-
 mean(jhk$ストレス)
-
 median(jhk$ストレス)
 
 sort(table(jhk$年代))
@@ -24,12 +24,11 @@ histogram(~協調性|年代+性別, data = jhk, breaks = 15)
 tapply(jhk$協調性, jhk$性別, mean)
 
 boxplot(jhk$技能, horizontal = TRUE)
-
 boxplot(協調性~性別, data = jhk, horizontal = TRUE)
 
 varname <- c("協調性", "自己主張", "技能", "知識")
 
-jhk2 <- jhk
+jhk2 <- jhk[,varname]
 
 apply(jhk2, 2, mean)
 
@@ -197,3 +196,14 @@ ggplot(data = mpg, mapping = aes(x = drv, y = cty, fill = drv)) + geom_boxplot()
 library(ggthemes) 
 ggthemes_data$colorblind 
 ggplot(data = mpg, mapping = aes(x = class, y = cty, fill = class)) +  geom_boxplot(show.legend = FALSE) +  scale_fill_colorblind()
+
+by(jhk2, jhk$性別, apply, 2, mean)
+by(jhk2, jhk$性別, apply, 2, mean)
+
+zscore <- scale(jhk2)
+head(zscore, 2)
+
+tscore <- zscore*10 + 50
+head(tscore, 2)
+
+xyplot(知識~技能|年代+部署, data = jhk)
